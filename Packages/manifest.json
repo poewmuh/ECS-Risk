@@ -2,6 +2,7 @@
   "dependencies": {
     "com.codewriter.triinspector": "https://github.com/codewriter-packages/Tri-Inspector.git",
     "com.cysharp.unitask": "https://github.com/Cysharp/UniTask.git?path=src/UniTask/Assets/Plugins/UniTask",
+    "com.farco.morpeh.helpers": "https://github.com/SH42913/morpeh.helpers.git?path=/Assets/Morpeh.Helpers",
     "com.scellecs.morpeh": "https://github.com/scellecs/morpeh.git?path=Scellecs.Morpeh",
     "com.unity.ai.navigation": "2.0.7",
     "com.unity.collab-proxy": "2.10.0",
