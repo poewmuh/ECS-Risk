@@ -19,13 +19,16 @@ namespace Risk.Gameplay.ECS.Initilizers
         
         private readonly AddressablesLoader _addressablesLoader;
         private readonly CharacterConfig _characterConfig;
+
+        private int _skinId;
         
         public World World { get; set;}
 
-        public PlayerInitilizer(int characterId, AllCharactersConfig allCharactersConfig)
+        public PlayerInitilizer(int heroId, int skinId, AllCharactersConfig allCharactersConfig)
         {
             _addressablesLoader = new AddressablesLoader();
-            _characterConfig = allCharactersConfig.GetCharacterById(characterId);
+            _skinId = skinId;
+            _characterConfig = allCharactersConfig.GetCharacterById(heroId);
         }
     
         public void OnAwake()
@@ -64,7 +67,8 @@ namespace Risk.Gameplay.ECS.Initilizers
 
         private async UniTask SpawnPlayerMesh(Transform parent)
         {
-            var playerMeshPrefab = await _addressablesLoader.LoadAsync<GameObject>(_characterConfig.MeshPath);
+            var meshPath = _characterConfig.GetMeshPath(_skinId);
+            var playerMeshPrefab = await _addressablesLoader.LoadAsync<GameObject>(meshPath);
             Object.Instantiate(playerMeshPrefab, parent);
         }
     

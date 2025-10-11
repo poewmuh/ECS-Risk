@@ -17,8 +17,11 @@ namespace Risk.Gameplay.Configs
         
         public float DefaultMS => _defaultMoveSpeed;
         public int DefaultHP => _defaultHP;
-        
-        public string MeshPath => "CharacterMesh_" + _id;
         public string SpritePath => "CharacterSprite_" + _id;
+
+        public string GetMeshPath(int skinId)
+        {
+            return "CharacterMesh_" + _id + "_skin_" + skinId;
+        }
     }
 }

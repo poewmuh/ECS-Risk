@@ -31,7 +31,7 @@ namespace Risk.Gameplay.Boot
         
             var systemsGroup = _world.CreateSystemsGroup();
             
-            systemsGroup.AddInitializer(new PlayerInitilizer(0, _allCharactersConfig));
+            systemsGroup.AddInitializer(new PlayerInitilizer(0, 0, _allCharactersConfig));
 
             systemsGroup.AddSystem(new CameraFollowSystem(_cameraConfig));
             systemsGroup.AddSystem(new PlayerMovementSystem(_playerInput));
