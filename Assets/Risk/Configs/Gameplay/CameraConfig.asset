@@ -9,7 +9,8 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3db31cfa61354694e92565cb07bf224a, type: 3}
-  m_Name: MovementConfig
+  m_Script: {fileID: 11500000, guid: 299f621c8cf49b344ac9b34a8dd9dfb6, type: 3}
+  m_Name: CameraConfig
   m_EditorClassIdentifier: 
-  _moveSpeed: 5
+  _followSpeed: 5
+  _offset: {x: 0, y: 8.5, z: -3.5}

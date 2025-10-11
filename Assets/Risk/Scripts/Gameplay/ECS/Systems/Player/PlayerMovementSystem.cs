@@ -12,7 +12,7 @@ namespace Risk.Gameplay.ECS.Systems.Player
     [Il2CppSetOption(Option.NullChecks, false)]
     [Il2CppSetOption(Option.ArrayBoundsChecks, false)]
     [Il2CppSetOption(Option.DivideByZeroChecks, false)]
-    public sealed class PlayerMovementSystem : ISystem
+    public sealed class PlayerMovementSystem : IFixedSystem
     {
         private Filter _filter;
 
@@ -38,6 +38,7 @@ namespace Risk.Gameplay.ECS.Systems.Player
             _filter = World.Filter
                 .With<TransformComponent>()
                 .With<RigidbodyComponent>()
+                .With<PlayerMark>()
                 .Build();
             
             _moveInput.Enable();
