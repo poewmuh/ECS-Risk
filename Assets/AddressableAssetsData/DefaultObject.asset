@@ -9,7 +9,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3db31cfa61354694e92565cb07bf224a, type: 3}
-  m_Name: MovementConfig
+  m_Script: {fileID: 11500000, guid: 3a189bb168d8d90478a09ea08c2f3d72, type: 3}
+  m_Name: DefaultObject
   m_EditorClassIdentifier: 
-  _moveSpeed: 5
+  m_AddressableAssetSettingsGuid: 1df1ecc313c0a4744971360c872011f1

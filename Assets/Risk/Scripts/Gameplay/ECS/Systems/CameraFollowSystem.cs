@@ -12,8 +12,8 @@ namespace Risk.Gameplay.ECS.Systems
     [Il2CppSetOption(Option.DivideByZeroChecks, false)]
     public sealed class CameraFollowSystem : ILateSystem
     {
-        private Entity _cameraEntity;
-        private Entity _playerEntity;
+        private Filter _cameraFilter;
+        private Filter _playerFilter;
 
         private Stash<TransformComponent> _transformStash;
         private Stash<CameraComponent> _cameraStash;
@@ -29,8 +29,8 @@ namespace Risk.Gameplay.ECS.Systems
         
         public void OnAwake()
         {
-            _cameraEntity = World.Filter.With<CameraComponent>().Build().First();
-            _playerEntity = World.Filter.With<PlayerMark>().With<TransformComponent>().Build().First();
+            _cameraFilter = World.Filter.With<CameraComponent>().Build();
+            _playerFilter = World.Filter.With<PlayerMark>().With<TransformComponent>().Build();
 
             _transformStash = World.GetStash<TransformComponent>();
             _cameraStash = World.GetStash<CameraComponent>();
@@ -38,20 +38,21 @@ namespace Risk.Gameplay.ECS.Systems
 
         public void OnUpdate(float deltaTime)
         {
-            ref var camera = ref _cameraStash.Get(_cameraEntity);
-            ref var tr = ref _transformStash.Get(_playerEntity);
+            if (_cameraFilter.IsEmpty() || _playerFilter.IsEmpty()) return;
+            
+            var cameraEntity = _cameraFilter.First();
+            var playerEntity = _playerFilter.First();
+            
+            ref var camera = ref _cameraStash.Get(cameraEntity);
+            ref var tr = ref _transformStash.Get(playerEntity);
             
             var cameraTransform = camera.CameraTransform;
             var targetPosition = tr.Transform.position + _cameraConfig.Offset;
 
-            var velocity = Vector3.zero;
             cameraTransform.position = Vector3.Lerp(cameraTransform.position, targetPosition,
                 _cameraConfig.FollowSpeed * deltaTime);
         }
         
-        public void Dispose()
-        {
-            throw new System.NotImplementedException();
-        }
+        public void Dispose() { }
     }
 }

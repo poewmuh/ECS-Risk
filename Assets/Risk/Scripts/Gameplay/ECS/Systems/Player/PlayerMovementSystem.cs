@@ -16,29 +16,27 @@ namespace Risk.Gameplay.ECS.Systems.Player
     {
         private Filter _filter;
 
-        private Stash<TransformComponent> _transformStash;
+        private Stash<MovementComponent> _movementStash;
         private Stash<RigidbodyComponent> _rigidbodyStash;
         
-        private readonly MovementConfig _movementConfig;
         private readonly InputAction _moveInput;
         
         public World World { get; set;}
 
-        public PlayerMovementSystem(MovementConfig movementConfig, PlayerInputActions playerInput)
+        public PlayerMovementSystem(PlayerInputActions playerInput)
         {
-            _movementConfig = movementConfig;
             _moveInput = playerInput.Player.Move;
         }
     
         public void OnAwake()
         {
-            _transformStash = World.GetStash<TransformComponent>();
+            _movementStash = World.GetStash<MovementComponent>();
             _rigidbodyStash = World.GetStash<RigidbodyComponent>();
             
             _filter = World.Filter
-                .With<TransformComponent>()
                 .With<RigidbodyComponent>()
                 .With<PlayerMark>()
+                .With<MovementComponent>()
                 .Build();
             
             _moveInput.Enable();
@@ -46,6 +44,8 @@ namespace Risk.Gameplay.ECS.Systems.Player
     
         public void OnUpdate(float deltaTime)
         {
+            if (_filter.IsEmpty()) return;
+            
             var input = _moveInput.ReadValue<Vector2>();
             foreach (var entity in _filter)
             {
@@ -56,9 +56,10 @@ namespace Risk.Gameplay.ECS.Systems.Player
         private void ProcessMove(Entity entity, Vector2 input)
         {
             ref var rb = ref _rigidbodyStash.Get(entity);
+            ref var movement = ref _movementStash.Get(entity);
 
             var dir = new Vector3(input.x, 0, input.y).normalized;
-            var velocity = dir * _movementConfig.MoveSpeed;
+            var velocity = dir * movement.currentMoveSpeed;
 
             rb.Rigidbody.linearVelocity = velocity;
         }
