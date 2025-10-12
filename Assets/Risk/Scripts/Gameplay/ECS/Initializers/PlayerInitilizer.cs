@@ -44,7 +44,7 @@ namespace Risk.Gameplay.ECS.Initilizers
             var avatarTransform = await SpawnPlayerAvatar();
             await SpawnPlayerMesh(avatarTransform);
 
-            var entity = avatarTransform.GetComponent<PlayerMarkProvider>().Entity;
+            var entity = World.Filter.With<PlayerMark>().Build().First();
             AddStatsForPlayer(entity);
         }
 

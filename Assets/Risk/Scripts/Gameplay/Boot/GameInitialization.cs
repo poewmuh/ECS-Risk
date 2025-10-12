@@ -39,6 +39,7 @@ namespace Risk.Gameplay.Boot
             systemsGroup.AddSystem(new CrystalMoveSystem());
             systemsGroup.AddSystem(new CameraFollowSystem(_cameraConfig));
             systemsGroup.AddSystem(new PlayerMovementSystem(_playerInput));
+            systemsGroup.AddSystem(new GameTimerSystem());
         
             _world.AddSystemsGroup(order: 0, systemsGroup);
         }
