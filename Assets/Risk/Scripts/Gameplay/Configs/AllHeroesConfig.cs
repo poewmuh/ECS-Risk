@@ -4,13 +4,13 @@ using UnityEngine;
 namespace Risk.Gameplay.Configs
 {
     [CreateAssetMenu(menuName = "Risk/AllCharacterConfig", fileName = "AllCharacterConfig")]
-    public class AllCharactersConfig : ScriptableObject
+    public class AllHeroesConfig : ScriptableObject
     {
-        [SerializeField] private List<CharacterConfig> _characterConfigs;
+        [SerializeField] private List<HeroConfig> _heroesConfigs;
 
-        public CharacterConfig GetCharacterById(int id)
+        public HeroConfig GetCharacterById(int id)
         {
-            foreach (var character in _characterConfigs)
+            foreach (var character in _heroesConfigs)
             {
                 if (character.Id == id) return character;
             }

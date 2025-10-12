@@ -3,7 +3,7 @@ using UnityEngine;
 namespace Risk.Gameplay.Configs
 {
     [CreateAssetMenu(menuName = "Risk/CharacterConfig", fileName = "CharacterConfig")]
-    public class CharacterConfig : ScriptableObject
+    public class HeroConfig : ScriptableObject
     {
         [Header("Basic Info")]
         [SerializeField] private int _id;

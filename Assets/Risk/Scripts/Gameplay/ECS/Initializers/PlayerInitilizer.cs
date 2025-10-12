@@ -18,17 +18,17 @@ namespace Risk.Gameplay.ECS.Initilizers
         private Stash<MovementComponent> _movementStash;
         
         private readonly AddressablesLoader _addressablesLoader;
-        private readonly CharacterConfig _characterConfig;
+        private readonly HeroConfig _heroConfig;
 
         private int _skinId;
         
         public World World { get; set;}
 
-        public PlayerInitilizer(int heroId, int skinId, AllCharactersConfig allCharactersConfig)
+        public PlayerInitilizer(int heroId, int skinId, AllHeroesConfig allHeroesConfig)
         {
             _addressablesLoader = new AddressablesLoader();
             _skinId = skinId;
-            _characterConfig = allCharactersConfig.GetCharacterById(heroId);
+            _heroConfig = allHeroesConfig.GetCharacterById(heroId);
         }
     
         public void OnAwake()
@@ -51,12 +51,12 @@ namespace Risk.Gameplay.ECS.Initilizers
         private void AddStatsForPlayer(Entity entity)
         {
             ref var healthComponent = ref _healthStash.Add(entity);
-            healthComponent.maxHealth = _characterConfig.DefaultHP;
-            healthComponent.currentHealth = _characterConfig.DefaultHP;
+            healthComponent.maxHealth = _heroConfig.DefaultHP;
+            healthComponent.currentHealth = _heroConfig.DefaultHP;
             
             ref var movementComponent = ref _movementStash.Add(entity);
-            movementComponent.defaultMoveSpeed = _characterConfig.DefaultMS;
-            movementComponent.currentMoveSpeed = _characterConfig.DefaultMS;
+            movementComponent.defaultMoveSpeed = _heroConfig.DefaultMS;
+            movementComponent.currentMoveSpeed = _heroConfig.DefaultMS;
         }
         
         private async UniTask<Transform> SpawnPlayerAvatar()
@@ -67,7 +67,7 @@ namespace Risk.Gameplay.ECS.Initilizers
 
         private async UniTask SpawnPlayerMesh(Transform parent)
         {
-            var meshPath = _characterConfig.GetMeshPath(_skinId);
+            var meshPath = _heroConfig.GetMeshPath(_skinId);
             var playerMeshPrefab = await _addressablesLoader.LoadAsync<GameObject>(meshPath);
             Object.Instantiate(playerMeshPrefab, parent);
         }

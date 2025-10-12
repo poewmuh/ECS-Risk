@@ -9,8 +9,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4d5357e3028d23843a84a9ad4f0849e1, type: 3}
-  m_Name: AllCharacterConfig
+  m_Script: {fileID: 11500000, guid: c19aec6361340cd4a985d740b5286e6f, type: 3}
+  m_Name: DefaultEnemy
   m_EditorClassIdentifier: 
-  _characterConfigs:
-  - {fileID: 11400000, guid: 87d91ec1dc5ffc546a0eda8493b0caea, type: 2}
+  _id: -1
+  _defaultMoveSpeed: 3
+  _defaultHp: 10
