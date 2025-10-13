@@ -10,16 +10,12 @@ namespace Risk.Gameplay.ECS.Components.Spawn
     [Il2CppSetOption(Option.DivideByZeroChecks, false)]
     public struct SpawnRequestComponent : IComponent
     {
-        public List<SpawnRequest> requests;
-    }
-
-    public struct SpawnRequest
-    {
-        public SpawnRequest(int enemyId)
-        {
-            this.enemyId = enemyId;
-        }
-        
         public int enemyId;
     }
+    
+    [System.Serializable]
+    [Il2CppSetOption(Option.NullChecks, false)]
+    [Il2CppSetOption(Option.ArrayBoundsChecks, false)]
+    [Il2CppSetOption(Option.DivideByZeroChecks, false)]
+    public struct RequestActiveMarker : IComponent { }
 }

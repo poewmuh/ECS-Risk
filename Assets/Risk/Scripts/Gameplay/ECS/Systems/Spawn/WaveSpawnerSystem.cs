@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using Risk.Gameplay.Configs;
 using Risk.Gameplay.ECS.Components.Spawn;
 using Risk.Gameplay.ECS.Components.View;
@@ -16,9 +17,12 @@ namespace Risk.Gameplay.ECS.Systems.Spawn
 
         private Filter _gameTimeFilter;
         private Filter _waveFilter;
+        private Filter _requestSpawnFilter;
+        
         private Stash<TimerComponent> _timerStash;
         private Stash<WaveComponent> _waveStash;
         private Stash<SpawnRequestComponent> _spawnRequestStash;
+        private Stash<RequestActiveMarker> _requestActiveMarkerStash;
 
         protected override bool isHaveFirstTick => true;
         protected override float updateTime => 1f;
@@ -32,8 +36,12 @@ namespace Risk.Gameplay.ECS.Systems.Spawn
         {
             _spawnRequestStash = World.GetStash<SpawnRequestComponent>();
             _waveStash = World.GetStash<WaveComponent>();
-            _waveFilter = World.Filter.With<WaveComponent>().With<SpawnRequestComponent>().Build();
+            _requestActiveMarkerStash = World.GetStash<RequestActiveMarker>();
+            
+            _waveFilter = World.Filter.With<WaveComponent>().Build();
             _gameTimeFilter = World.Filter.With<TimerComponent>().Build();
+            _requestSpawnFilter = World.Filter.With<SpawnRequestComponent>().Without<RequestActiveMarker>().Build();
+            
             _timerStash = World.GetStash<TimerComponent>();
             
             base.OnAwake();
@@ -64,7 +72,7 @@ namespace Risk.Gameplay.ECS.Systems.Spawn
             {
                 waveComp.lastSpawnTime = 0f;
 
-                ProcessSpawn(currentWave);
+                SpawnWave(currentWave);
                 
                 if (waveComp.waveCount + 1 < difficultyLevel.WaveData.Count)
                 {
@@ -73,17 +81,62 @@ namespace Risk.Gameplay.ECS.Systems.Spawn
             }
         }
 
-        private void ProcessSpawn(DifficultyWave waveData)
+        private void SpawnWave(DifficultyWave waveData)
         {
-            ref var spawnRequest = ref _spawnRequestStash.Get(_waveFilter.First());
+            var totalCommandsNeeded = 0;
+            foreach (var wave in waveData.Waves)
+            {
+                totalCommandsNeeded += wave.Count;
+            }
+            
+            var requestToActivate = GetRequestEntities(totalCommandsNeeded);
+
+            var requestIndex = 0;
             foreach (var wave in waveData.Waves)
             {
                 Debug.Log("[WaveSpawnerSystem] Spawn wave: " + wave.EnemyId + " Count: " + wave.Count);
                 for (int i = 0; i < wave.Count; i++)
                 {
-                    spawnRequest.requests.Add(new SpawnRequest(wave.EnemyId));
+                    ActivateRequest(requestToActivate[requestIndex], wave.EnemyId);
+                    requestIndex++;
                 }
             }
+        }
+
+        private List<Entity> GetRequestEntities(int count)
+        {
+            var result = new List<Entity>(count);
+
+            foreach (var entity in _requestSpawnFilter)
+            {
+                result.Add(entity);
+
+                if (result.Count >= count)
+                    return result;
+            }
+
+            int remaining = count - result.Count;
+            for (int i = 0; i < remaining; i++)
+            {
+                var newEntity = World.CreateEntity();
+                _spawnRequestStash.Add(newEntity);
+                result.Add(newEntity);
+            }
+
+            if (remaining > 0)
+            {
+                Debug.Log($"<color=red>[WaveSpawnerSystem] Command pool exhausted, created {remaining} new entities");
+            }
+
+            return result;
+        }
+        
+        private void ActivateRequest(Entity commandEntity, int enemyId)
+        {
+            ref var request = ref _spawnRequestStash.Get(commandEntity);
+            request.enemyId = enemyId;
+
+            _requestActiveMarkerStash.Add(commandEntity);
         }
 
         public override void Dispose()

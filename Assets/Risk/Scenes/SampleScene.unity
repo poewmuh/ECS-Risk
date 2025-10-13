@@ -304,6 +304,7 @@ GameObject:
   - component: {fileID: 434803442}
   - component: {fileID: 434803438}
   - component: {fileID: 434803441}
+  - component: {fileID: 434803443}
   m_Layer: 0
   m_Name: Base
   m_TagString: Untagged
@@ -404,6 +405,20 @@ Rigidbody:
   m_Interpolate: 1
   m_Constraints: 116
   m_CollisionDetection: 0
+--- !u!114 &434803443
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 434803436}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 078e2dae29c104849b138d90affd0f5e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  serializedData:
+    _transform: {fileID: 434803440}
 --- !u!1 &981348902
 GameObject:
   m_ObjectHideFlags: 0

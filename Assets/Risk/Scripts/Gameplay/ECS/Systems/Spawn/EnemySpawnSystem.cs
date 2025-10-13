@@ -1,6 +1,8 @@
 using Risk.Gameplay.Configs;
+using Risk.Gameplay.ECS.Components.Crystal;
 using Risk.Gameplay.ECS.Components.Spawn;
 using Risk.Gameplay.ECS.Components.Units;
+using Risk.Gameplay.Services;
 using Risk.Tools;
 using Scellecs.Morpeh;
 using Unity.IL2CPP.CompilerServices;
@@ -16,14 +18,15 @@ namespace Risk.Gameplay.ECS.Systems.Spawn
         private readonly AllEnemysConfig _allEnemysConfig;
         private readonly AddressablesLoader _addressablesLoader;
         
-        private Stash<SpawnRequestComponent> _spawnRequests;
-        private Stash<MovementComponent> _movementStash;
-        private Stash<HealthComponent> _healthStash;
-        private Stash<RigidbodyComponent> _rigidbodyStash;
+        private Stash<TransformComponent> _transformStash;
+        private Stash<SpawnRequestComponent> _requestComponentStash;
+        private Stash<RequestActiveMarker> _activeMarkerStash;
+        private Stash<UnitInitializeComponent> _initializeStash;
         
-        private Entity _spawnRequestEntity;
+        private Filter _activeRequestFilter;
+        private Filter _crystalFilter;
 
-        private ObjectPool _objectPool;
+        private EnemyPoolService _objectPool;
         
         public World World { get; set;}
 
@@ -35,75 +38,73 @@ namespace Risk.Gameplay.ECS.Systems.Spawn
     
         public void OnAwake()
         {
-            _objectPool = new ObjectPool();
-            _movementStash = World.GetStash<MovementComponent>();
-            _healthStash = World.GetStash<HealthComponent>();
-            _spawnRequests = World.GetStash<SpawnRequestComponent>();
-            _rigidbodyStash = World.GetStash<RigidbodyComponent>();
+            _objectPool = new EnemyPoolService();
+            _transformStash = World.GetStash<TransformComponent>();
+            _activeMarkerStash = World.GetStash<RequestActiveMarker>();
+            _requestComponentStash = World.GetStash<SpawnRequestComponent>();
+            _initializeStash = World.GetStash<UnitInitializeComponent>();
             
-            _spawnRequestEntity = World.Filter.With<SpawnRequestComponent>().Build().First();
+
+            _activeRequestFilter = World.Filter.With<SpawnRequestComponent>().With<RequestActiveMarker>().Build();
+            _crystalFilter = World.Filter.With<CrystalComponent>().With<TransformComponent>().Build();
         }
     
         public void OnUpdate(float deltaTime)
         {
-            ref var spawnRequest = ref _spawnRequests.Get(_spawnRequestEntity);
-
-            foreach (var enemyData in spawnRequest.requests)
-            {
-                ProcessSpawn(enemyData.enemyId);
-            }
+            if (_activeRequestFilter.IsEmpty()) return;
             
-            spawnRequest.requests.Clear();
+            var crystalEntity = _crystalFilter.First();
+            ref var tr = ref _transformStash.Get(crystalEntity);
+            var crystalPos = tr.Transform.position;
+
+            foreach (var requestEntity in _activeRequestFilter)
+            {
+                ref var request = ref _requestComponentStash.Get(requestEntity);
+                
+                ProcessSpawn(request.enemyId, crystalPos);
+
+                _activeMarkerStash.Remove(requestEntity);
+            }
         }
         
-        private void ProcessSpawn(int enemyId)
+        private void ProcessSpawn(int enemyId, Vector3 crystalPos)
         {
-            //TODO: WORK IN PROGRESS TEST CODE
-            var enemyConfig = _allEnemysConfig.GetCharacterById(enemyId);
-            GameObject enemy = null;
-            if (!_objectPool.IsHaveInPool(enemyId) || !_objectPool.TryPop(enemyId, out enemy))
+            if (!_objectPool.TryGetFromPool(enemyId, out var pooledEnemy))
             {
-                enemy = LoadEnemy(enemyConfig);
+                pooledEnemy = CreateNewEnemy(enemyId);
             }
 
-            var enemyEntity = enemy.GetComponent<EnemyMarkProvider>().Entity;
-            ref var rb = ref _rigidbodyStash.Get(enemyEntity);
-            rb.Rigidbody.position = GetRandomSpawnPosition();
-            enemy.SetActive(true);
+            ActivateEnemy(pooledEnemy, crystalPos);
         }
-        
-        private Vector3 GetRandomSpawnPosition()
-        {
-            var distance = Random.Range(3, 6);
-            var angle = Random.Range(0f, 360f) * Mathf.Deg2Rad;
 
-            var offset = new Vector3(
-                Mathf.Cos(angle) * distance,
-                0,
-                Mathf.Sin(angle) * distance
+        private GameObject CreateNewEnemy(int enemyId)
+        {
+            var enemyConfig = _allEnemysConfig.GetCharacterById(enemyId);
+
+            var enemyObject = _addressablesLoader.LoadAndInstantiate(
+                enemyConfig.GetPrefabPath(),
+                EnemyPoolService.POOL_POSITION,
+                Quaternion.identity
             );
 
-            return offset;
-        }
-
-        private GameObject LoadEnemy(EnemyConfig enemyConfig)
-        {
-            var prefab = _addressablesLoader.LoadImmediate<GameObject>(enemyConfig.GetPrefabPath());
-            var enemyObject = Object.Instantiate(prefab, Vector3.up * 1000, Quaternion.identity);
             var entity = enemyObject.GetComponent<EnemyMarkProvider>().Entity;
-            _movementStash.Add(entity) = new MovementComponent()
-            {
-                currentMoveSpeed = enemyConfig.DefaultMoveSpeed,
-                defaultMoveSpeed = enemyConfig.DefaultMoveSpeed
-            };
-
-            _healthStash.Add(entity) = new HealthComponent()
-            {
-                currentHealth = enemyConfig.DefaultHp,
-                maxHealth = enemyConfig.DefaultHp
-            };
+            _initializeStash.Add(entity) = new UnitInitializeComponent() { unitId = enemyId };
+            
+            enemyObject.SetActive(false);
 
             return enemyObject;
+        }
+
+        private void ActivateEnemy(GameObject enemyObject, Vector3 crystalPos)
+        {
+            var spawnPosition = SpawnLocationService.GetRandomSpawnPositionAround(
+                crystalPos,
+                7,
+                12
+            );
+
+            enemyObject.transform.position = spawnPosition;
+            enemyObject.SetActive(true);
         }
     
         public void Dispose()

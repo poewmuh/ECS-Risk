@@ -21,10 +21,13 @@ namespace Risk.Gameplay.ECS.Initilizers
             
             var entityForSpawn = World.CreateEntity();
             _waveStash.Add(entityForSpawn);
-            _spawnRequestStash.Add(entityForSpawn) = new SpawnRequestComponent()
+
+            var requestPoolSize = 15;
+            for (int i = 0; i < requestPoolSize; i++)
             {
-                requests = new List<SpawnRequest>()
-            };
+                var commandEntity = World.CreateEntity();
+                _spawnRequestStash.Add(commandEntity);
+            }
         }
     
         public void Dispose()

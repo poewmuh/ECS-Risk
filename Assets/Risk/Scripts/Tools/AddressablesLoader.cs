@@ -51,6 +51,13 @@ namespace Risk.Tools
             return null;
         }
         
+        public GameObject LoadAndInstantiate(string key, Vector3 position, Quaternion rotation)
+        {
+            var prefab = LoadImmediate<GameObject>(key);
+            var instance = UnityEngine.Object.Instantiate(prefab, position, rotation);
+            return instance;
+        }
+        
         public void Release(string key)
         {
             if (!_handles.TryGetValue(key, out var handle)) return;
