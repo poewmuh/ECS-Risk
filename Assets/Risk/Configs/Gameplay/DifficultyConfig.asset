@@ -1,0 +1,37 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2c8fc53f6df44d148bff2dc573e8ceb3, type: 3}
+  m_Name: DifficultyConfig
+  m_EditorClassIdentifier: 
+  _difficultyLevels:
+  - _level: 0
+    _startTime: 0
+    _endTime: 10
+    _waveData:
+    - _waves:
+      - _enemyId: -1
+        _count: 1
+      _spawnInterval: 4
+    - _waves:
+      - _enemyId: -1
+        _count: 3
+      _spawnInterval: 5
+  - _level: 1
+    _startTime: 10
+    _endTime: 3.4028235e+38
+    _waveData:
+    - _waves:
+      - _enemyId: -1
+        _count: 3
+      - _enemyId: -1
+        _count: 3
+      _spawnInterval: 10

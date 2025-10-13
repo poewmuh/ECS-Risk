@@ -1,6 +1,6 @@
 using Risk.Gameplay.Configs;
 using Risk.Gameplay.ECS.Components;
-using Risk.Gameplay.ECS.Components.Player;
+using Risk.Gameplay.ECS.Components.Units;
 using Scellecs.Morpeh;
 using Unity.IL2CPP.CompilerServices;
 using UnityEngine;

@@ -15,7 +15,7 @@ namespace Risk.Gameplay.ECS.Systems
         protected override void Process(Entity entity, ref TimerComponent component, in float deltaTime)
         {
             _timer += deltaTime;
-            component.UpdateTimer(_timer);
+            component.UpdateTimer(_timer); //TODO: update only once per second
         }
     }
 }

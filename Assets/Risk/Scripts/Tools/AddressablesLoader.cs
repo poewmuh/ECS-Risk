@@ -31,6 +31,26 @@ namespace Risk.Tools
             return null;
         }
         
+        public T LoadImmediate<T>(string key) where T : UnityEngine.Object
+        {
+            if (_handles.TryGetValue(key, out var existHandle))
+            {
+                if (existHandle.IsValid()) return existHandle.Result as T;
+            }
+
+            var handle = Addressables.LoadAssetAsync<T>(key);
+            handle.WaitForCompletion();
+
+            if (handle.Status == AsyncOperationStatus.Succeeded)
+            {
+                _handles[key] = handle;
+                return handle.Result;
+            }
+            
+            Debug.LogError($"[AddressablesLoader] Failed to load asset with key: {key}.");
+            return null;
+        }
+        
         public void Release(string key)
         {
             if (!_handles.TryGetValue(key, out var handle)) return;

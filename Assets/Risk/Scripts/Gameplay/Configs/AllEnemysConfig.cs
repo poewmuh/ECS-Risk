@@ -18,5 +18,10 @@ namespace Risk.Gameplay.Configs
             Debug.LogError($"[AllCharacterConfig] CharacterConfig with id {id} not found");
             return null;
         }
+        
+        public List<EnemyConfig> GetAllEnemys()
+        {
+            return _enemysConfigs;
+        }
     }
 }

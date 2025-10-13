@@ -3,7 +3,7 @@ using Scellecs.Morpeh.Providers;
 using Unity.IL2CPP.CompilerServices;
 using UnityEngine;
 
-namespace Risk.Gameplay.ECS.Components.Player
+namespace Risk.Gameplay.ECS.Components.Units
 {
     [Il2CppSetOption(Option.NullChecks, false)]
     [Il2CppSetOption(Option.ArrayBoundsChecks, false)]

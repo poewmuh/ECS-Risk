@@ -19,8 +19,13 @@ namespace Risk.Gameplay.ECS.Components.View
     {
         [SerializeField] private TextMeshProUGUI _timerText;
 
+        private float _gameTime;
+        public float GameTime => _gameTime;
+
         public void UpdateTimer(float time)
         {
+            _gameTime = time;
+            
             var minutes = Mathf.FloorToInt(time / 60F);
             var seconds = Mathf.FloorToInt(time % 60F);
 

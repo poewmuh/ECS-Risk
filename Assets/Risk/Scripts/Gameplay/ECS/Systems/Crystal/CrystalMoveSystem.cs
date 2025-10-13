@@ -1,5 +1,5 @@
 using Risk.Gameplay.ECS.Components.Crystal;
-using Risk.Gameplay.ECS.Components.Player;
+using Risk.Gameplay.ECS.Components.Units;
 using Scellecs.Morpeh;
 using Scellecs.Morpeh.Helpers;
 using Unity.IL2CPP.CompilerServices;

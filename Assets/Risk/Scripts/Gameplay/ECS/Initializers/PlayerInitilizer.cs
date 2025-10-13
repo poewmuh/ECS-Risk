@@ -1,6 +1,6 @@
 using Cysharp.Threading.Tasks;
 using Risk.Gameplay.Configs;
-using Risk.Gameplay.ECS.Components.Player;
+using Risk.Gameplay.ECS.Components.Units;
 using Risk.Tools;
 using Scellecs.Morpeh;
 using Unity.IL2CPP.CompilerServices;

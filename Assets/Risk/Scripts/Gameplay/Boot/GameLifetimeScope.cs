@@ -11,12 +11,14 @@ namespace Risk.Gameplay.Boot
         [SerializeField] private AllHeroesConfig _allHeroesConfig;
         [SerializeField] private AllEnemysConfig _allEnemysConfig;
         [SerializeField] private CameraConfig _cameraConfig;
+        [SerializeField] private DifficultyConfig _difficultyConfig;
         
         protected override void Configure(IContainerBuilder builder)
         {
             builder.RegisterInstance(_allHeroesConfig);
             builder.RegisterInstance(_allEnemysConfig);
             builder.RegisterInstance(_cameraConfig);
+            builder.RegisterInstance(_difficultyConfig);
             
             builder.Register<PlayerInputActions>(Lifetime.Singleton);
         }
