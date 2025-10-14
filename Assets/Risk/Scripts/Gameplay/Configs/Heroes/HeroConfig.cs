@@ -2,7 +2,7 @@ using UnityEngine;
 
 namespace Risk.Gameplay.Configs
 {
-    [CreateAssetMenu(menuName = "Risk/CharacterConfig", fileName = "CharacterConfig")]
+    [CreateAssetMenu(menuName = "Risk/Heroes/CharacterConfig", fileName = "CharacterConfig")]
     public class HeroConfig : ScriptableObject
     {
         [Header("Basic Info")]

@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace Risk.Gameplay.Configs
 {
-    [CreateAssetMenu(menuName = "Risk/AllCharacterConfig", fileName = "AllCharacterConfig")]
+    [CreateAssetMenu(menuName = "Risk/Heroes/AllCharacterConfig", fileName = "AllCharacterConfig")]
     public class AllHeroesConfig : ScriptableObject
     {
         [SerializeField] private List<HeroConfig> _heroesConfigs;

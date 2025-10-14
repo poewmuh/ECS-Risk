@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace Risk.Gameplay.Configs
 {
-    [CreateAssetMenu(menuName = "Risk/AllEnemysConfig", fileName = "AllEnemysConfig")]
+    [CreateAssetMenu(menuName = "Risk/Enemys/AllEnemysConfig", fileName = "AllEnemysConfig")]
     public class AllEnemysConfig : ScriptableObject
     {
         [SerializeField] private List<EnemyConfig> _enemysConfigs;
