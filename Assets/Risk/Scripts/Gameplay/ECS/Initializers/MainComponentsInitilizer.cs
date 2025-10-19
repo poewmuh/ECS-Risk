@@ -1,4 +1,3 @@
-using System.Collections.Generic;
 using Risk.Gameplay.ECS.Components.Spawn;
 using Scellecs.Morpeh;
 using Unity.IL2CPP.CompilerServices;
@@ -8,7 +7,7 @@ namespace Risk.Gameplay.ECS.Initilizers
     [Il2CppSetOption(Option.NullChecks, false)]
     [Il2CppSetOption(Option.ArrayBoundsChecks, false)]
     [Il2CppSetOption(Option.DivideByZeroChecks, false)]
-    public sealed class ComponentsInitilizer : IInitializer 
+    public sealed class MainComponentsInitilizer : IInitializer 
     {
         private Stash<WaveComponent> _waveStash;
         private Stash<SpawnRequestComponent> _spawnRequestStash;

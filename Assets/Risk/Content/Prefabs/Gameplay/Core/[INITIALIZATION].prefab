@@ -86,6 +86,7 @@ MonoBehaviour:
   _allEnemysConfig: {fileID: 11400000, guid: 6585b075cb09fb84fa157f2c8394fe8d, type: 2}
   _cameraConfig: {fileID: 11400000, guid: 9c344c9507f37104d962580348eb6ab6, type: 2}
   _difficultyConfig: {fileID: 11400000, guid: 23ac11f3d83dae14d8cd995f206704dc, type: 2}
+  _allWeaponsConfig: {fileID: 11400000, guid: ce831e7af07a818439bd23398344a65f, type: 2}
 --- !u!1 &8365215459935560126
 GameObject:
   m_ObjectHideFlags: 0

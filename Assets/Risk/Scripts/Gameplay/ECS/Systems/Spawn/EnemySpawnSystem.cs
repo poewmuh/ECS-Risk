@@ -26,7 +26,7 @@ namespace Risk.Gameplay.ECS.Systems.Spawn
         private Filter _activeRequestFilter;
         private Filter _crystalFilter;
 
-        private EnemyPoolService _objectPool;
+        private ObjectPoolService _objectPool;
         
         public World World { get; set;}
 
@@ -38,7 +38,7 @@ namespace Risk.Gameplay.ECS.Systems.Spawn
     
         public void OnAwake()
         {
-            _objectPool = new EnemyPoolService();
+            _objectPool = new ObjectPoolService();
             _transformStash = World.GetStash<TransformComponent>();
             _activeMarkerStash = World.GetStash<RequestActiveMarker>();
             _requestComponentStash = World.GetStash<SpawnRequestComponent>();
@@ -83,7 +83,7 @@ namespace Risk.Gameplay.ECS.Systems.Spawn
 
             var enemyObject = _addressablesLoader.LoadAndInstantiate(
                 enemyConfig.GetPrefabPath(),
-                EnemyPoolService.POOL_POSITION,
+                ObjectPoolService.POOL_POSITION,
                 Quaternion.identity
             );
 

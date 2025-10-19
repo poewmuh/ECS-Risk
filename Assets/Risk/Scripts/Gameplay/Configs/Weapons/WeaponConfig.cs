@@ -1,5 +1,4 @@
 using Risk.Gameplay.Enums;
-using TriInspector;
 using UnityEngine;
 
 namespace Risk.Gameplay.Configs
@@ -17,19 +16,29 @@ namespace Risk.Gameplay.Configs
         [SerializeField] private bool _requiresTargeting;
         
         [Header("Stats")]
-        [SerializeField] private float _baseDamage;
-        [SerializeField] private float _baseAttackSpeed;                                                                                                                                                     
+        [SerializeField] private int _baseDamage;
+        [SerializeField] private float _baseTimeBetweenAttacks;                                                                                                                                                     
         [SerializeField] private float _baseRange;                                                                                                                              
         [SerializeField] private float _baseSize = 1f;
+        [SerializeField] private float _lifeTime;
+        [SerializeField] private float _projectileSpeed;
+
+        [Header("Magazine")] 
+        [SerializeField] private int _baseAmmo;
+        [SerializeField] private float _baseReloadTime;
         
         public int Id => _id;
         public string Name => _name;
         public WeaponType WeaponType => _weaponType;
         public bool RequiresTargeting => _requiresTargeting;
-        public float BaseDamage => _baseDamage;
-        public float BaseAttackSpeed => _baseAttackSpeed;
-        public float BaseRange => _baseRange;
+        public int BaseDamage => _baseDamage;
+        public float BaseTimeBetweenAttacks => _baseTimeBetweenAttacks;
         public float BaseSize => _baseSize;
+        public float LifeTime => _lifeTime;
+        public float ProjectileSpeed => _projectileSpeed;
+        
+        public int BaseAmmo => _baseAmmo;
+        public float BaseReloadTime => _baseReloadTime;
 
 
         public string GetPrefabPath()

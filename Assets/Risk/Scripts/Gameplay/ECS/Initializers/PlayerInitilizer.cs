@@ -1,6 +1,7 @@
 using Cysharp.Threading.Tasks;
 using Risk.Gameplay.Configs;
 using Risk.Gameplay.ECS.Components.Units;
+using Risk.Gameplay.ECS.Components.Weapons;
 using Risk.Tools;
 using Scellecs.Morpeh;
 using Unity.IL2CPP.CompilerServices;
@@ -16,6 +17,7 @@ namespace Risk.Gameplay.ECS.Initilizers
     {
         private Stash<HealthComponent> _healthStash;
         private Stash<MovementComponent> _movementStash;
+        private Stash<WeaponInitializeComponent> _weaponInitializeStash;
         
         private readonly AddressablesLoader _addressablesLoader;
         private readonly HeroConfig _heroConfig;
@@ -35,6 +37,7 @@ namespace Risk.Gameplay.ECS.Initilizers
         {
             _healthStash = World.GetStash<HealthComponent>();
             _movementStash = World.GetStash<MovementComponent>();
+            _weaponInitializeStash = World.GetStash<WeaponInitializeComponent>();
             
             InitilizeCharacter().Forget();
         }
@@ -46,6 +49,16 @@ namespace Risk.Gameplay.ECS.Initilizers
 
             var entity = World.Filter.With<PlayerMark>().Build().First();
             AddStatsForPlayer(entity);
+            InitializeWeapon();
+        }
+
+        private void InitializeWeapon()
+        {
+            var weaponEntity = World.CreateEntity();
+            _weaponInitializeStash.Add(weaponEntity) = new WeaponInitializeComponent()
+            {
+                weaponId = _heroConfig.StartingWeaponId
+            };
         }
 
         private void AddStatsForPlayer(Entity entity)

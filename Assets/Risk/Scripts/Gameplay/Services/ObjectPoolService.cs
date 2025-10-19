@@ -6,7 +6,7 @@ using Object = UnityEngine.Object;
 
 namespace Risk.Gameplay.Services
 {
-    public class EnemyPoolService : IDisposable
+    public class ObjectPoolService : IDisposable
     {
         public static readonly Vector3 POOL_POSITION = Vector3.up * 1000f;
         
@@ -14,16 +14,16 @@ namespace Risk.Gameplay.Services
         
         public bool HasInPool(int id) => _pool.ContainsKey(id);
         
-        public void ReturnToPool(int enemyId, GameObject go, Entity entity)
+        public void ReturnToPool(int objectId, GameObject go)
         {
-            if (!_pool.ContainsKey(enemyId))
+            if (!_pool.ContainsKey(objectId))
             {
-                _pool[enemyId] = new Queue<GameObject>();
+                _pool[objectId] = new Queue<GameObject>();
             }
             go.SetActive(false);
             go.transform.position = POOL_POSITION;
 
-            _pool[enemyId].Enqueue(go);
+            _pool[objectId].Enqueue(go);
         }
         
         public bool TryGetFromPool(int id, out GameObject go)

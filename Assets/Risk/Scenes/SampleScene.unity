@@ -496,22 +496,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: '[ENVIRONMENT]'
       objectReference: {fileID: 0}
-    - target: {fileID: 4480650031462176729, guid: 4a8643c0ddcac624c98cc75abd5c261e, type: 3}
-      propertyPath: m_Intensity
-      value: 1.7
-      objectReference: {fileID: 0}
-    - target: {fileID: 4480650031462176729, guid: 4a8643c0ddcac624c98cc75abd5c261e, type: 3}
-      propertyPath: m_Shadows.m_Type
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 4480650031462176729, guid: 4a8643c0ddcac624c98cc75abd5c261e, type: 3}
-      propertyPath: m_ColorTemperature
-      value: 5863
-      objectReference: {fileID: 0}
-    - target: {fileID: 4480650031462176729, guid: 4a8643c0ddcac624c98cc75abd5c261e, type: 3}
-      propertyPath: m_Shadows.m_Strength
-      value: 1
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

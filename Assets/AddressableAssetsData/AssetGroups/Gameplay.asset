@@ -15,6 +15,11 @@ MonoBehaviour:
   m_GroupName: Gameplay
   m_GUID: a5d568c051bb3734193e6dc3d2075550
   m_SerializeEntries:
+  - m_GUID: 41ddda495bd7a2b46914e33594622005
+    m_Address: Sword_0
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 9e90652bb0f35bd43a74eb5632261577
     m_Address: Enemy-1
     m_ReadOnly: 0

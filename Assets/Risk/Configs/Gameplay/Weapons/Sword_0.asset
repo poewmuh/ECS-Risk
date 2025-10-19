@@ -18,6 +18,10 @@ MonoBehaviour:
   _weaponType: 0
   _requiresTargeting: 0
   _baseDamage: 9
-  _baseAttackSpeed: 3
+  _baseTimeBetweenAttacks: 0.35
   _baseRange: 1
   _baseSize: 1
+  _lifeTime: 0.3
+  _projectileSpeed: 5
+  _baseAmmo: 2
+  _baseReloadTime: 2
